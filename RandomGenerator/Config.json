@@ -1,0 +1,34 @@
+{
+  "CasoCavalloRandomSources": [
+    {
+      "name": "ClassicalRandomRandomSource",
+      "type": "Internal"
+    },
+    {
+      "name": "DevUrandomRandomSource",
+      "type": "Internal"
+    }
+  ],
+  "CasoCavalloQueues": [
+    {
+      "name": "random_numbers_between_0_1",
+      "type": "BINARY"
+    },
+    {
+      "name": "random_bytes_32",
+      "type": "RANDOM_BYTES",
+      "size": 32
+    },
+    {
+      "name": "floats_between_5_20",
+      "type": "REAL",
+      "range": [5.2, 20]
+    },
+    {
+      "name": "ints_between_5_20",
+      "type": "INTEGER",
+      "range": [5, 20]
+    }
+
+  ]
+}
