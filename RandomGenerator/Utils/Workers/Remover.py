@@ -4,6 +4,13 @@ from Utils.CasoCavalloConstants import RANDOM_REMOVAL_TIME
 
 
 def remover_worker(redis_client, redis_lists):
+    """
+    Remove elements from redis queues
+
+    :param redis_client: Redis client to use
+    :param redis_lists: Redis queues names
+    """
+
     while True:
 
         for redis_list in redis_lists:
