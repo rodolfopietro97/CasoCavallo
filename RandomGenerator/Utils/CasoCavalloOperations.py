@@ -51,6 +51,15 @@ class CasoCavalloOperations:
 
     @staticmethod
     def reduce_randoms(randoms_list, datatype):
+        """
+        Find correct reduction for datatype.
+
+        :param randoms_list: Random list to reduce
+        :param datatype: Datatype of random list
+
+        :return: Random number chooses with reduction
+        """
+
         reduction_result = None
 
         # Reduction function for random bytes
