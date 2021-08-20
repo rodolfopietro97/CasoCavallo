@@ -11,6 +11,7 @@ from Utils.CasoCavalloConstants import REDIS_SERVER, CONFIGURATION_FILE_PATH, IN
     RANDOM_GENERATION_TIME, RANDOM_REMOVAL_TIME, RANDOM_THRESHOLD, USE_VIEWER
 from Utils.PerformancesTests import initial_performances_test
 from Utils.Workers.Generator import generator_worker
+from Utils.Workers.Merger import merger_worker
 from Utils.Workers.Remover import remover_worker
 from Utils.Workers.Viewer import viewer_worker
 
@@ -80,9 +81,11 @@ if __name__ == '__main__':
             for random_source in random_sources:
                 generator = Process(target=generator_worker, args=(redis_client, random_source, redis_queues, ))
                 remover = Process(target=remover_worker, args=(redis_client, redis_lists, ))
+                merger = Process(target=merger_worker, args=(redis_client, redis_queues))
 
                 generator.start()
                 remover.start()
+                merger.start()
 
         except Exception as exception:
             print(f"Error on init Redis\n{exception}")
