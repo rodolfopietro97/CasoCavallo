@@ -49,6 +49,9 @@ def viewer_worker(redis_client, redis_lists):
                 ]
             )
 
+            # Add current
+            elements = elements + f"\n\nCURRENT: {redis_client.get(f'current_{redis_list}').decode()}"
+
             # Append elements of redis list (elements are expressed as string)
             elements_of_redis_lists.append(elements)
 
