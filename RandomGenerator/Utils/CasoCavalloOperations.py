@@ -1,3 +1,8 @@
+from functools import reduce
+from math import floor
+import random
+from statistics import mean
+
 import numpy as np
 
 from Utils.CasoCavalloConstants import HEX_ALPHABET
@@ -43,3 +48,32 @@ class CasoCavalloOperations:
             [HEX_ALPHABET[index]
              for index in np.nditer(indices_xor)]
         )
+
+    @staticmethod
+    def reduce_randoms(randoms_list, datatype):
+        reduction_result = None
+
+        # Reduction function for random bytes
+        if datatype == "RANDOM_BYTES":
+            # Reduce with xor
+            reduction_result = reduce(CasoCavalloOperations.bytes_xor, randoms_list)
+
+        # Reduction function for binaries
+        if datatype == "BINARY":
+            # Convert to float
+            randoms_list = map(float, randoms_list)
+            reduction_result = reduce(lambda r1, r2: r1 if random.uniform(0, 1) >= 0.5 else r2, randoms_list)
+
+        # Reduction function for integers
+        if datatype == "INTEGER":
+            # Convert to int
+            randoms_list = map(int, randoms_list)
+            reduction_result = reduce(lambda r1, r2: r1 if random.uniform(0, 1) >= 0.5 else r2, randoms_list)
+
+        # Reduction function for reals
+        if datatype == "REAL":
+            # Convert to float
+            randoms_list = map(float, randoms_list)
+            reduction_result = reduce(lambda r1, r2: r1 + r2, randoms_list)
+
+        return reduction_result
