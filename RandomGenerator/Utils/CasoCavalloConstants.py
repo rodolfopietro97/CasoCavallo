@@ -89,3 +89,13 @@ QUEUE_DATA_TYPES = [
 """
 Data types for random queues
 """
+
+
+MERGER_BUFFER_SIZE = 5
+"""
+Size of buffer uses for merge random numbers of a queues in a single random number.
+
+For example, we have the queue 'my_32_bytes_queue'. The merger process make a random
+sample from this queue of MERGER_BUFFER_SIZE size.
+And after concatenates all numbers (with different strategies)
+"""
