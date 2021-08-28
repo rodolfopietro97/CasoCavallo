@@ -1,0 +1,27 @@
+{
+    "name": "casocavallo_p2player",
+    "version": "1.0.0",
+    "description": "P2P Layer of CasoCavallo random number generator",
+    "main": "dist/app.js",
+    "scripts": {
+        "serve": "tsc && node dist/app.js",
+        "build": "tsc",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "P2P",
+        "Truly Random Numbers"
+    ],
+    "author": "Rodolfo Pietro Calabrò",
+    "license": "GNU AFFERO GPL",
+    "devDependencies": {
+        "tslint": "^6.1.3",
+        "typescript": "^4.4.2"
+    },
+    "dependencies": {
+        "libp2p": "^0.32.4",
+        "libp2p-mplex": "^0.10.4",
+        "libp2p-noise": "^4.0.0",
+        "libp2p-tcp": "^0.17.1"
+    }
+}
