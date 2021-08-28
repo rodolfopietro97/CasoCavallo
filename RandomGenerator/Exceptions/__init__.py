@@ -1,3 +1,3 @@
 """
-Specific Exceptions
+Main exceptions package.
 """

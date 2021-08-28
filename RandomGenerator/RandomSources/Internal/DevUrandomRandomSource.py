@@ -13,14 +13,16 @@ class DevUrandomRandomSource(CasoCavalloRandomSource):
         Definition of get normal random function.
 
         It return a number between 0 and 1
-        :return:
+
+        :return: A random number between 0 and 1 using /dev/urandom linux file
         """
 
         # Default random number is 0 if any errors
         random_number = 0
 
-        # Use /dev/urandom file
+        # Open /dev/urandom file
         with open("/dev/urandom", 'rb') as file:
+            # Divide the number for 255 to obtain a normalized number in the interval [0;1]
             random_number = int.from_bytes(file.read(1), "little") / 255
 
         return random_number

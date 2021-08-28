@@ -7,7 +7,8 @@ Alphabet of hexadecimal numbers
 REDIS_SERVER = {
     'host': '1.0.0.10',
     'port': 6379,
-    'database': 0
+    'database': 0,
+    'connection_timeout': 5
 }
 """
 Redis server informations.
@@ -24,25 +25,13 @@ Configuration file contains random sources to use and a lot of stuffs
 """
 
 
-INITIAL_PERFORMANCES_TEST = False
-"""
-If do or not initial performance test.
-Initial performance test told to us:
-
-"How many pair of random bytes of 32 bytes i can generate in 1 seconds.
-And every time i make xor operation between them.
-All for each random source i use"
-
-"""
-
-
-RANDOM_GENERATION_TIME = 1
+RANDOM_GENERATION_TIME = 0.5
 """
 Second after that we must generate a new random
 """
 
 
-RANDOM_REMOVAL_TIME = 1.5
+RANDOM_REMOVAL_TIME = 0.7
 """
 Second after that we must remove a random from list
 """
@@ -56,21 +45,9 @@ It says "How many random numbers i must have in my Redis queue?"
 """
 
 
-USE_VIEWER = True
-"""
-If use or not real time viewer
-"""
-
-
-VIEWER_MAXIMUM_ROWS = 10
+VIEWER_MAXIMUM_ROWS = 5
 """
 Number of rows to show using viewer
-"""
-
-
-VIEWER_PRINT_TIME = 1
-"""
-Print redis lists every VIEWER_PRINT_TIME seconds
 """
 
 
@@ -91,11 +68,18 @@ Data types for random queues
 """
 
 
-MERGER_BUFFER_SIZE = 5
+MERGER_BUFFER_SIZE = 10
 """
 Size of buffer uses for merge random numbers of a queues in a single random number.
 
 For example, we have the queue 'my_32_bytes_queue'. The merger process make a random
 sample from this queue of MERGER_BUFFER_SIZE size.
 And after concatenates all numbers (with different strategies)
+"""
+
+
+MERGER_MERGE_TIME = 0.10
+"""
+After how many MERGER_MERGE_TIME merge process must do merge of numbers
+in each queue
 """

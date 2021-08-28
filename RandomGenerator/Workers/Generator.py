@@ -1,6 +1,8 @@
 from time import sleep
 
-from Utils.CasoCavalloConstants import RANDOM_GENERATION_TIME, RANDOM_THRESHOLD
+from Utils.CasoCavalloConstants import \
+    RANDOM_GENERATION_TIME, \
+    RANDOM_THRESHOLD
 
 
 def generator_worker(redis_client, random_source, redis_queues):
@@ -39,7 +41,7 @@ def generator_worker(redis_client, random_source, redis_queues):
                 # REAL Data types
                 if redis_queue['type'] == "REAL":
                     current_random = random_source().get_random_range(minimum=redis_queue['range'][0],
-                                                                          maximum=redis_queue['range'][1])
+                                                                      maximum=redis_queue['range'][1])
 
                 # Final push on queue
                 redis_client.rpush(redis_queue['name'], f"{current_random}")

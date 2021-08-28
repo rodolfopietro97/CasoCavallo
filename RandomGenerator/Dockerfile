@@ -16,4 +16,4 @@ VOLUME [ "/app/casocavallo/random_generator" ]
 
 # Uncomment if you want to use docker run/build directly.
 # CMD is already in docker-compose
-# CMD [ "python", "main.py" ]
+# CMD [ "python", "Generator.py" ]

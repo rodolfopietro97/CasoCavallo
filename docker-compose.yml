@@ -22,7 +22,7 @@ services:
         ipv4_address: '1.0.0.11'
     volumes: 
       - './RandomGenerator:/app/casocavallo/random_generator'
-    command: ['python', 'main.py']
+    command: ['python', 'Generator.py']
 
   # Redis server
   casocavallo_redis:
@@ -35,3 +35,4 @@ services:
       casocavallo_network:
         ipv4_address: '1.0.0.10'   
     command: [ 'redis-server', '/usr/local/etc/redis/redis.conf' ]
+

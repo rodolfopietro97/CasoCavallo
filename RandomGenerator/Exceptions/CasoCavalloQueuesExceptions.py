@@ -1,3 +1,8 @@
+"""
+Main exceptions related to queues.
+"""
+
+
 class InvalidCasoCavalloQueueName(Exception):
     """
     Exception launched when a CasoCavallo Random queue

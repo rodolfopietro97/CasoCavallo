@@ -7,14 +7,14 @@ class CasoCavalloRandomSource(abc.ABC):
     """
     This class represent the abstraction of a Random Source.
 
-    Random source is a source that is capable to generate random numbers.
+    Random source is a source capable to generate random numbers.
 
     It can be of two kinds:
-        * Internal: If uses an internal technology, such as dev/urandom or classical random sequences
+        * Internal: If uses an internal technology, such as /dev/urandom or classical random sequences
         * External: If uses external random sources, such as Quantum computer, Hardware devices, and other stuff...
 
     The Children of this class must only to redefine **get_normal_random()** function.
-
+    All other functions derives from this function.
     """
 
     def __init__(self):
@@ -43,6 +43,9 @@ class CasoCavalloRandomSource(abc.ABC):
         :return: A random bytes
         """
 
+        # Random bytes must have a size.
+        assert size > 0
+
         # List of bytes.
         bytes_list = [
             # Every hex digit is a random between 0 and 15
@@ -52,7 +55,7 @@ class CasoCavalloRandomSource(abc.ABC):
             for _ in range(size)
         ]
 
-        # Return the random bytes
+        # Return the random bytes as a string
         return ''.join(bytes_list)
 
     def get_random_range(self, minimum: float, maximum: float):
@@ -68,6 +71,7 @@ class CasoCavalloRandomSource(abc.ABC):
         # Minimum must not be great equal than maximum
         assert minimum < maximum
 
+        # Denormalize a random using [minimum; maximum] range, start from [0;1] range
         return minimum + (self.get_normal_random() * (maximum - minimum))
 
     def get_random_range_int(self, minimum: int, maximum: int):
@@ -83,4 +87,5 @@ class CasoCavalloRandomSource(abc.ABC):
         # Minimum must not be great equal than maximum
         assert minimum < maximum
 
+        # Return the integer of get_random_range_int
         return int(self.get_random_range(minimum=minimum, maximum=maximum))

@@ -14,7 +14,8 @@ class ClassicalRandomRandomSource(CasoCavalloRandomSource):
         Definition of get normal random function.
 
         It return a number between 0 and 1
-        :return:
+
+        :return: A random number between 0 and 1 using python libraries
         """
 
         return random.uniform(0, 1)

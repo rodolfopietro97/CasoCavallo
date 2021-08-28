@@ -1,22 +1,20 @@
 from functools import reduce
-from math import floor
 import random
-from statistics import mean
 
 import numpy as np
 
-from Utils.CasoCavalloConstants import HEX_ALPHABET
+from Utils.CasoCavalloConstants import HEX_ALPHABET, QUEUE_DATA_TYPES
 
 
 class CasoCavalloOperations:
     """
     Operations class.
 
-    It makes various operations on random numbers, such as XOR, ...
+    It makes various operations on random numbers, such as XOR, etc...
     """
 
     @staticmethod
-    def bytes_xor(bytes1, bytes2):
+    def bytes_xor(bytes1: str, bytes2: str):
         """
         Make xor between two bytes expressed as string
 
@@ -28,8 +26,9 @@ class CasoCavalloOperations:
         # Bytes must have same size
         assert len(bytes1) == len(bytes2)
 
-        # Get indices (in our case number) of every alphabet symbols
-        # -example- '0'=0, ..., 'f'=15
+        # Get indices (in our case number) of every alphabet symbols.
+        # Every index correspond to a character: Index 0->'0', ... , Index 15->'f'
+        # With one to one correspondence we make xor on indexes
         indices_bytes1 = np.array(
             [HEX_ALPHABET.index(element)
              for element in bytes1]
@@ -43,23 +42,42 @@ class CasoCavalloOperations:
         # Make xor of numbers
         indices_xor = indices_bytes1 ^ indices_bytes2
 
-        # Return the string of all indexes
+        # Return for each index the corresponding character. ALl as a string
         return ''.join(
-            [HEX_ALPHABET[index]
-             for index in np.nditer(indices_xor)]
+            [
+                HEX_ALPHABET[index]
+                for index in np.nditer(indices_xor)
+            ]
         )
 
     @staticmethod
-    def reduce_randoms(randoms_list, datatype):
+    def reduce_randoms(randoms_list: list, datatype: str):
         """
         Find correct reduction for datatype.
+
+        The main concept of CasoCavallo is to obtain truly random numbers
+        by using Pseudo Random numbers "merged" to truly random numbers
+        or to other pseudo random numbers.
+
+        To do this merge we need specific "merge" operations.
+
+        For example:
+        * Random bytes can be merged with xor
+        * Etc..
 
         :param randoms_list: Random list to reduce
         :param datatype: Datatype of random list
 
-        :return: Random number chooses with reduction
+        :return: Random number obtained by reduction on random_list
         """
 
+        # # Random list must not be empty
+        # assert len(randoms_list) > 0
+        #
+        # # Random list must have a valid datatype
+        # assert datatype not in QUEUE_DATA_TYPES
+
+        # Default we don't have a result
         reduction_result = None
 
         # Reduction function for random bytes

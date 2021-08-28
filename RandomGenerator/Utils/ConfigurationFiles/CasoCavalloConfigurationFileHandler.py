@@ -1,52 +1,76 @@
 import json
 import sys
 
-from Exceptions.CasoCavalloQueuesExceptions import InvalidCasoCavalloQueueName, InvalidCasoCavalloQueueDataType, \
-    InvalidRandomBytesSizeForDataTypeRandomBytes, InvalidRangeForDataType
-from Utils.CasoCavalloConstants import INVALID_CHARACTERS_FOR_QUEUE_NAME, QUEUE_DATA_TYPES
+from Exceptions.CasoCavalloQueuesExceptions import \
+    InvalidCasoCavalloQueueName, \
+    InvalidCasoCavalloQueueDataType, \
+    InvalidRandomBytesSizeForDataTypeRandomBytes,\
+    InvalidRangeForDataType
+
+from Utils.CasoCavalloConstants import \
+    INVALID_CHARACTERS_FOR_QUEUE_NAME, \
+    QUEUE_DATA_TYPES
+
+
+"""
+**@NOTE**: DON'T remove these imports below!
+These import are needed for "Reflection"
+"""
+import RandomSources.Internal.Internals
+import RandomSources.External.Externals
 
 
 class CasoCavalloConfigurationFileHandler:
     """
-    Handle the fonciguration file of CasoCavallo
+    Handle the configuration files of CasoCavallo.
+
+    It uses rules of our JSON files
     """
 
     @staticmethod
-    def import_class_using_package(name):
+    def import_class_using_package(package_name: str):
         """
         Import a class and package using 'reflection'
 
-        :param name: Name of package and class
+        :param package_name: Name of package and class
 
         :return: Instance of class
         """
-        components = name.split('.')
+
+        # Get components of a package directory_1.directory_2. ... .directory_n.Module
+        components = package_name.split('.')
+
+        # Start the import from first module
         module = __import__(components[0])
-        for comp in components[1:]:
-            module = getattr(module, comp)
+
+        # For each component start from the second
+        for component in components[1:]:
+            module = getattr(module, component)
+
+        # Return module
         return module
 
     @staticmethod
-    def load_random_sources_from_configuration_file(configuration_file_path):
+    def load_random_sources_from_configuration_file(configuration_file_path: str):
         """
         Load random sources contained in the configuration files
 
         :param configuration_file_path: Path of configuration file
 
-        :return: Random sources on configuration file
+        :return: Random sources contained in the configuration file
         """
 
         # Random sources to use (empty default)
         random_sources = []
 
         try:
-            # Open config.json
+            # Open JSON configuration file
             config_file = json.load(open(configuration_file_path))
 
             # Get all random sources in configuration file
             random_sources = [
-                # Class instance using 'reflection'
-                # globals()[random_source['type']]()
+                # Instantiate random sources using 'reflection':
+                # FORMAT: RandomSources.{Internal|External}.RandomSourceClassName.RandomSourceClassName
                 CasoCavalloConfigurationFileHandler.import_class_using_package(f"RandomSources."
                                                                                f"{random_source['type']}."
                                                                                f"{random_source['name']}."
@@ -54,26 +78,35 @@ class CasoCavalloConfigurationFileHandler:
                 for random_source in config_file['CasoCavalloRandomSources']
             ]
 
-        # Missing config file
+        # Configuration file doesn't exists
         except FileNotFoundError as file_not_foundError:
             print(f"Error on load CasoCavallo Random Number Generator. "
-                  f"Missing config file \n{file_not_foundError}", file=sys.stderr)
+                  f"Missing config file\n{file_not_foundError}",
+                  file=sys.stderr)
 
         # Key error on json file
         except KeyError as key_error:
-            print(f"Syntax error on {configuration_file_path}  \n{key_error}", file=sys.stderr)
+            print(f"Syntax error on {configuration_file_path}\n{key_error}",
+                  file=sys.stderr)
 
-        # Generic error
+        # Generic error, to handle unexpected behaviors
         except Exception as exception:
-            print(f"Error on load CasoCavallo Random Number Generator.  \n{exception}", file=sys.stderr)
+            print(f"Generic Error on load CasoCavallo Random Number Generator.\n{exception}",
+                  file=sys.stderr)
+
+        # Random sources list cannot be empty
+        assert len(random_sources) > 0
 
         # Return the random sources on configuration file
         return random_sources
 
     @staticmethod
-    def load_queues_from_configuration_file(configuration_file_path):
+    def load_queues_from_configuration_file(configuration_file_path: str):
         """
-        Load random queues contained in configuration files
+        Load random queues contained in configuration files.
+
+        THis method is very important because set correct random queues
+        by using parameters
 
         :param configuration_file_path: Path of configuration file
 
@@ -87,47 +120,55 @@ class CasoCavalloConfigurationFileHandler:
             # Open config.json
             config_file = json.load(open(configuration_file_path))
 
-            # Get all random sources in configuration file
+            # Get all queues in configuration file
             queues = [
                 queue
                 for queue in config_file['CasoCavalloQueues']
+
+                # Only valid queues
                 if CasoCavalloConfigurationFileHandler.is_valid_queue(queue)
             ]
 
-        # Missing config file
+        # Configuration file doesn't exists
         except FileNotFoundError as file_not_foundError:
             print(f"Error on load CasoCavallo Random Number Generator. "
-                  f"Missing config file \n{file_not_foundError}", file=sys.stderr)
+                  f"Missing config file\n{file_not_foundError}", file=sys.stderr)
 
         # Key error on json file
         except KeyError as key_error:
-            print(f"Syntax error on {configuration_file_path} Or missing a key \n{key_error}", file=sys.stderr)
+            print(f"Syntax error on {configuration_file_path} Or missing a key\n{key_error}",
+                  file=sys.stderr)
 
-        # Invalid queue name
+        # Invalid queue name -> Queue contains invalid characters
         except InvalidCasoCavalloQueueName as invalid_queue_name:
-            print(f"Error on queue names. There is an incorrect name. \n{invalid_queue_name}", file=sys.stderr)
+            print(f"Error on queue names. There is an incorrect name.\n{invalid_queue_name}",
+                  file=sys.stderr)
 
-        # Invalid queue data type
+        # Invalid queue data type -> Datatype wrong
         except InvalidCasoCavalloQueueDataType as invalid_queue_data_type:
-            print(f"Error on queue data types. There is an incorrect data type. \n{invalid_queue_data_type}", file=sys.stderr)
+            print(f"Error on queue data types. There is an incorrect data type.\n{invalid_queue_data_type}",
+                  file=sys.stderr)
 
-        # Invalid queue data type
+        # Invalid queue data type -> Random bytes size of queue is invalid
         except InvalidRandomBytesSizeForDataTypeRandomBytes as invalid_random_bytes_size:
-            print(f"Error on queue size. Incorrect random bytes size. \n{invalid_random_bytes_size}", file=sys.stderr)
+            print(f"Error on queue size. Incorrect random bytes size.\n{invalid_random_bytes_size}",
+                  file=sys.stderr)
 
-        # Invalid queue data type
+        # Invalid queue data type-> Invalid size of range of queue
         except InvalidRangeForDataType as invalid_random_bytes_size:
-            print(f"Error on queue range. Incorrect range for data type INTEGER or REAL. \n{invalid_random_bytes_size}", file=sys.stderr)
+            print(f"Error on queue range. Incorrect range for data type INTEGER or REAL.\n{invalid_random_bytes_size}",
+                  file=sys.stderr)
 
-        # Generic error
+        # Generic error, to handle unexpected behaviors
         except Exception as exception:
-            print(f"Error on load CasoCavallo Random Number Generator.  \n{exception}", file=sys.stderr)
+            print(f"Error on load CasoCavallo Random Number Generator.\n{exception}",
+                  file=sys.stderr)
 
         # Return the random sources on configuration file
         return queues
 
     @staticmethod
-    def is_valid_queue(queue_to_analyze):
+    def is_valid_queue(queue_to_analyze: dict):
         """
         Validate the syntax of a queue.
 
@@ -136,9 +177,9 @@ class CasoCavalloConfigurationFileHandler:
         * Data types of queue must be established
         * ...
 
-        :param queue_to_analyze:
+        :param queue_to_analyze: Queue to parse/analyze
 
-        :return: If a queue is valid
+        :return: True if a queue is valid, False otherwise
         """
 
         # Name cannot contains invalid characters
