@@ -36,3 +36,16 @@ services:
         ipv4_address: '1.0.0.10'   
     command: [ 'redis-server', '/usr/local/etc/redis/redis.conf' ]
 
+  # P2P Layer
+  casocavallo_p2p_layer:
+    build: './P2PLayer'
+    volumes: 
+      - './P2PLayer:/app/casocavallo/p2p_layer'
+    stdin_open: true  # docker run -i
+    tty: true
+    networks: 
+      casocavallo_network:
+        ipv4_address: '1.0.0.12'
+    command: [ 'npm', 'run', 'serve' ]
+
+
