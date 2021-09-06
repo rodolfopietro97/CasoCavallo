@@ -1,0 +1,47 @@
+/**
+ * Simple "server" instance
+ */
+
+import { createNode } from "./nodes";
+const { fromString: uint8ArrayFromString } = require('uint8arrays/from-string')
+const { toString: uint8ArrayToString } = require('uint8arrays/to-string')
+
+
+const topic = 'news'
+
+
+const main = async () => {
+    // Init node
+    let p2pNode = await createNode(
+        [
+            '/ip4/0.0.0.0/tcp/33055'
+        ]
+    );
+
+    // Start node
+    await p2pNode.start();
+
+    console.log('listening on addresses:')
+
+    p2pNode.multiaddrs.forEach(addr => {
+        console.log(`${addr.toString()}/p2p/${p2pNode.peerId.toB58String()}`)
+    })
+
+    p2pNode.pubsub.on(topic, (msg) => {
+        console.log(`node received: ${uint8ArrayToString(msg.data)}`)
+    })
+    await p2pNode.pubsub.subscribe(topic)
+
+    p2pNode.connectionManager.on('peer:connect', (connection) => {
+        console.log('Connection established to:', connection.remotePeer.toB58String())	// Emitted when a new connection has been created
+    })
+
+    p2pNode.on('peer:discovery', (peerId) => {
+        // No need to dial, autoDial is on
+        console.log('Discovered:', peerId.toB58String())
+    })
+
+    // await p2pNode.stop()
+}
+
+main();
