@@ -21,6 +21,9 @@ const main = async () => {
     // Start node
     await p2pNode.start();
 
+    // Publish stuffs
+    p2pNode.pubsub.publish('fruit', new TextEncoder().encode('banana'))
+
     // Starting log
     console.log('listening on addresses:')
     p2pNode.multiaddrs.forEach(addr => {

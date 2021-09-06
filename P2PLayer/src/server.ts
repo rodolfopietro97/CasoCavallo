@@ -21,16 +21,17 @@ const main = async () => {
     // Start node
     await p2pNode.start();
 
+    // Listen on pubsub events
+    p2pNode.pubsub.on('fruit', (data) => {
+        console.log(data)
+    })
+    p2pNode.pubsub.subscribe('fruit')
+
     // Starting log
     console.log('listening on addresses:')
     p2pNode.multiaddrs.forEach(addr => {
         console.log(`${addr.toString()}/p2p/${p2pNode.peerId.toB58String()}`)
     })
-
-    p2pNode.pubsub.on(topic, (msg) => {
-        console.log(`node received: ${uint8ArrayToString(msg.data)}`)
-    })
-    await p2pNode.pubsub.subscribe(topic)
 
     // When connection is established
     p2pNode.connectionManager.on('peer:connect', (connection) => {

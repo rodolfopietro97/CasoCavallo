@@ -60,6 +60,13 @@ export async function createNode(ipAddresses: Array<string>) {
           interval: 300e3,
           timeout: 10e3
         }
+      },
+
+      pubsub: {                     // The pubsub options (and defaults) can be found in the pubsub router documentation
+        enabled: true,
+        emitSelf: true,             // whether the node should emit to self on publish
+        signMessages: true,         // if messages should be signed
+        strictSigning: true         // if message signing should be required
       }
     }
   });
@@ -67,3 +74,5 @@ export async function createNode(ipAddresses: Array<string>) {
   // Return the p2p node
   return p2pNode
 }
+
+
