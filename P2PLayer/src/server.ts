@@ -21,8 +21,8 @@ const main = async () => {
     // Start node
     await p2pNode.start();
 
+    // Starting log
     console.log('listening on addresses:')
-
     p2pNode.multiaddrs.forEach(addr => {
         console.log(`${addr.toString()}/p2p/${p2pNode.peerId.toB58String()}`)
     })
@@ -32,16 +32,15 @@ const main = async () => {
     })
     await p2pNode.pubsub.subscribe(topic)
 
+    // When connection is established
     p2pNode.connectionManager.on('peer:connect', (connection) => {
         console.log('Connection established to:', connection.remotePeer.toB58String())	// Emitted when a new connection has been created
     })
 
+    // When a new peer is discovered
     p2pNode.on('peer:discovery', (peerId) => {
-        // No need to dial, autoDial is on
         console.log('Discovered:', peerId.toB58String())
     })
-
-    // await p2pNode.stop()
 }
 
 main();
