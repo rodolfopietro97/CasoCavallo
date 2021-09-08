@@ -3,9 +3,6 @@
  */
 
 import { createNode } from "./nodes";
-import { createWebNode } from "./webNode";
-const { fromString: uint8ArrayFromString } = require('uint8arrays/from-string')
-const { toString: uint8ArrayToString } = require('uint8arrays/to-string')
 
 
 const topic = 'news'
