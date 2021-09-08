@@ -65,6 +65,7 @@ export async function createNode(ipAddresses: Array<string>) {
     config: {
       peerDiscovery: {
         autoDial: true,
+        
         [MulticastDNS.tag]: {
           enabled: true,
         },
@@ -103,7 +104,7 @@ export async function createNode(ipAddresses: Array<string>) {
 
       pubsub: {                     // The pubsub options (and defaults) can be found in the pubsub router documentation
         enabled: true,
-        emitSelf: true,             // whether the node should emit to self on publish
+        emitSelf: false,             // whether the node should emit to self on publish
       },
 
       nat: {

@@ -18,20 +18,21 @@ const main = async () => {
     // Set listen mode (we are server that subscribe)
     let listenMode : boolean = mainArguments[2] == '-s'
 
-    // Set ports on listen
-    let numberOfPorts = 10
-    let ports = Array.from(new Array(numberOfPorts), (x, i) => i)
+    // // Set ports on listen
+    // let numberOfPorts = 10
+    // let ports = Array.from(new Array(numberOfPorts), (x, i) => i)
 
-    let listenNodesTCP = ports.map((port : number) => {
-        return `/ip4/0.0.0.0/tcp/${4005 + port}`
-    })
-    let listenNodesWS = ports.map((port : number) => {
-        return `/ip4/127.0.0.1/tcp/${4005 + port + numberOfPorts}/ws`
-    })
+    // let listenNodesTCP = ports.map((port : number) => {
+    //     return `/ip4/0.0.0.0/tcp/${4005 + port}`
+    // })
+    // let listenNodesWS = ports.map((port : number) => {
+    //     return `/ip4/127.0.0.1/tcp/${4005 + port + numberOfPorts}/ws`
+    // })
     let allAddresses =  [
-                '/ip4/0.0.0.0/tcp/4002',
-                '/ip4/127.0.0.1/tcp/4003/ws'
-            ].concat(listenNodesTCP).concat(listenNodesWS)
+                '/ip4/0.0.0.0/tcp/0',
+                '/ip4/0.0.0.0/tcp/0/ws'
+            ]
+            // ].concat(listenNodesTCP).concat(listenNodesWS)
 
 
     // Init node by passing listen addresses
@@ -63,13 +64,13 @@ const main = async () => {
     })
 
     // When connection is established
-    p2pNode.connectionManager.on('peer:connect', (connection) => {
-        console.log('Connection established to:', connection.remotePeer.toB58String())	// Emitted when a new connection has been created
+    p2pNode.connectionManager.on('peer:connect', async (connection) => {
+        // console.log('Connection established to:', connection.remotePeer.toB58String())	// Emitted when a new connection has been created
     })
 
     // When a new peer is discovered
-    p2pNode.on('peer:discovery', (peerId) => {
-        console.log('Discovered:', peerId.toB58String())
+    p2pNode.on('peer:discovery', async (peerId) => {
+        // console.log('Discovered:', peerId.toB58String())
     })
 }
 
