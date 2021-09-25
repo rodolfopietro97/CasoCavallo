@@ -1,0 +1,27 @@
+{
+    "name": "casocavallo_p2player",
+    "version": "1.0.0",
+    "description": "P2P Layer of CasoCavallo",
+    "main": "index.js",
+    "scripts": {
+        "server": "npm run build && node dist/server.js",
+        "client": "npm run build && node dist/client.js",
+        "build": "tsc && sh buildProtos.sh",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "P2P",
+        "Random"
+    ],
+    "author": "Rodolfo Pietro Calabrò",
+    "license": "ISC",
+    "devDependencies": {
+        "typescript": "^4.4.3"
+    },
+    "dependencies": {
+        "@grpc/grpc-js": "^1.3.7",
+        "google-protobuf": "^3.18.0",
+        "ioredis": "^4.27.9",
+        "node-rsa": "^1.1.1"
+    }
+}

@@ -1,13 +1,15 @@
 {
-    "CasoCavalloRandomSources": [{
-            "name": "ClassicalRandomRandomSource",
-            "type": "Internal"
-        },
-        {
-            "name": "DevUrandomRandomSource",
-            "type": "Internal"
-        }
-    ],
+    "cummareServers": ["0.0.0.0:50052"],
+    "topic": "random",
+    "redis": {
+        "port": 6379,
+        "host": "1.0.0.10",
+        "family": 4,
+        "db": 0
+    },
+    "requestsTopic": "random_requests",
+    "responsesTopic": "random_responses",
+    "subscribeTimeMilliseconds": 1000,
     "CasoCavalloQueues": [{
             "name": "random_numbers_between_0_1",
             "type": "BINARY"
