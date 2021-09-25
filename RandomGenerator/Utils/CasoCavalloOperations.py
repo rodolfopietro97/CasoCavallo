@@ -101,6 +101,6 @@ class CasoCavalloOperations:
         if datatype == "REAL":
             # Convert to float
             randoms_list = map(float, randoms_list)
-            reduction_result = reduce(lambda r1, r2: r1 + r2, randoms_list)
+            reduction_result = reduce(lambda r1, r2: r1 if random.uniform(0, 1) >= 0.5 else r2, randoms_list)
 
         return reduction_result
