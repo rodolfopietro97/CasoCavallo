@@ -5,7 +5,7 @@ Alphabet of hexadecimal numbers
 
 
 REDIS_SERVER = {
-    'host': '1.0.0.10',
+    'host': '1.0.0.2',
     'port': 6379,
     'database': 0,
     'connection_timeout': 5

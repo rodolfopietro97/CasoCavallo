@@ -22,6 +22,7 @@ if __name__ == '__main__':
     # ***** 2) Init redis and start main loop of generator process *****
     try:
         # Init redis client
+        # TODO: Hardcode in json these properties
         redis_client = redis.Redis(
             host=REDIS_SERVER['host'],
             port=REDIS_SERVER['port'],
