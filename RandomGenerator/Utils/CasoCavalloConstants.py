@@ -37,7 +37,7 @@ Second after that we must remove a random from list
 """
 
 
-RANDOM_THRESHOLD = 100
+RANDOM_THRESHOLD = 50
 """
 Indicate the size of the internal random queue.
 
