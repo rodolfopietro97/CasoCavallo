@@ -7,6 +7,9 @@ def server_worker(redis_client, redis_lists, cummare_clients_path, picinusu_fetc
 
     :param redis_client: Redis client ot use
     :param redis_lists: Redis lists names that we want show
+    :param cummare_clients_path: Path of cummare js clients
+    :param picinusu_fetcher_path: Path of Picinusu clients
+    :param cummare_server: Address of CUmmare Server
     """
 
     # For each redis list
