@@ -3,7 +3,7 @@ import redis
 
 from Utils.CasoCavalloConstants import REDIS_SERVER, CONFIGURATION_FILE_PATH
 from Utils.ConfigurationFiles.CasoCavalloConfigurationFileHandler import CasoCavalloConfigurationFileHandler
-from Workers.ServerWorker import server_worker
+from Workers.Server import server_worker
 from Workers.Viewer import viewer_worker
 
 import time
