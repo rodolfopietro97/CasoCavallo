@@ -1,5 +1,6 @@
 import os
 
+
 def server_worker(redis_client, redis_lists, cummare_clients_path, picinusu_fetcher_path, cummare_server):
     """
     Real time server.

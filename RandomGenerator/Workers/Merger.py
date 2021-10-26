@@ -16,7 +16,7 @@ def merger_worker(redis_client, redis_queues):
         for redis_queue in redis_queues:
 
             # All operations can start if and only if redis queue has elements!
-            if redis_client.llen(redis_queue['name']) > 0:
+            if redis_client.llen(redis_queue['name']) > 1:
 
                 # If we have at least MERGER_BUFFER_SIZE elements we take all array
                 if redis_client.llen(redis_queue['name']) <= MERGER_BUFFER_SIZE:

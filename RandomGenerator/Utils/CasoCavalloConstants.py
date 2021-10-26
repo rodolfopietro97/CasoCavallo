@@ -25,19 +25,19 @@ Configuration file contains random sources to use and a lot of stuffs
 """
 
 
-RANDOM_GENERATION_TIME = 0.5
+RANDOM_GENERATION_TIME = 0.05
 """
 Second after that we must generate a new random
 """
 
 
-RANDOM_REMOVAL_TIME = 0.7
+RANDOM_REMOVAL_TIME = 0.07
 """
 Second after that we must remove a random from list
 """
 
 
-RANDOM_THRESHOLD = 50
+RANDOM_THRESHOLD = 30
 """
 Indicate the size of the internal random queue.
 

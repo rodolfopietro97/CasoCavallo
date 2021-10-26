@@ -9,29 +9,23 @@
         }
     ],
     "CasoCavalloQueues": [{
-            "name": "random_numbers_between_0_1",
+            "name": "binary",
             "type": "BINARY"
         },
         {
-            "name": "random_bytes_32",
+            "name": "rb_16",
+            "type": "RANDOM_BYTES",
+            "size": 16
+        },
+        {
+            "name": "rb_32",
             "type": "RANDOM_BYTES",
             "size": 32
         },
         {
-            "name": "floats_between_0_4294967296",
-            "type": "REAL",
-            "range": [0, 4294967296]
-        },
-        {
-            "name": "ints_between_0_4294967296",
-            "type": "INTEGER",
-            "range": [0, 4294967296]
-        },
-        {
-            "name": "ints_between_0_4294967296_2",
-            "type": "INTEGER",
-            "range": [0, 4294967296]
+            "name": "rb_64",
+            "type": "RANDOM_BYTES",
+            "size": 64
         }
-
     ]
 }
