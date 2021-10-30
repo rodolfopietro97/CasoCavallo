@@ -4,13 +4,11 @@ import sys
 from Exceptions.CasoCavalloQueuesExceptions import \
     InvalidCasoCavalloQueueName, \
     InvalidCasoCavalloQueueDataType, \
-    InvalidRandomBytesSizeForDataTypeRandomBytes,\
+    InvalidRandomBytesSizeForDataTypeRandomBytes, \
     InvalidRangeForDataType
-
 from Utils.CasoCavalloConstants import \
     INVALID_CHARACTERS_FOR_QUEUE_NAME, \
     QUEUE_DATA_TYPES
-
 
 """
 **@NOTE**: DON'T remove these imports below!
@@ -224,3 +222,80 @@ class CasoCavalloConfigurationFileHandler:
 
         # All validations are passed
         return True
+
+
+    @staticmethod
+    def load_cummare_servers_from_configuration_file(configuration_file_path: str):
+        """
+        Load cummare servers contained in network configuration files.
+
+        :param configuration_file_path: Path of configuration file
+
+        :return: Servers on configuration file
+        """
+
+        # Queues to use (empty default)
+        cummare_servers = []
+
+        try:
+            # Open config.json
+            config_file = json.load(open(configuration_file_path))
+
+            # Get all queues in configuration file
+            cummare_servers = [
+                cummare_server
+                for cummare_server in config_file['CummareServers']
+            ]
+
+        # Configuration file doesn't exists
+        except FileNotFoundError as file_not_foundError:
+            print(f"Error on load CasoCavallo Random Number Generator. "
+                  f"Missing config file\n{file_not_foundError}", file=sys.stderr)
+
+        # Key error on json file
+        except KeyError as key_error:
+            print(f"Syntax error on {configuration_file_path} Or missing a key\n{key_error}",
+                  file=sys.stderr)
+
+        # Generic error, to handle unexpected behaviors
+        except Exception as exception:
+            print(f"Generic Error on load CasoCavallo Random Number Generator.\n{exception}",
+                  file=sys.stderr)
+
+        # Return the random sources on configuration file
+        return cummare_servers
+
+    @staticmethod
+    def load_redis_server_from_configuration_file(configuration_file_path: str):
+        """
+        Load Redis server contained in network configuration files.
+
+        :param configuration_file_path: Path of configuration file
+
+        :return: Redis server on configuration file
+        """
+
+        try:
+            # Open config.json
+            config_file = json.load(open(configuration_file_path))
+
+            # Get all queues in configuration file
+            redis_server = config_file['RedisServer']
+
+        # Configuration file doesn't exists
+        except FileNotFoundError as file_not_foundError:
+            print(f"Error on load CasoCavallo Random Number Generator. "
+                  f"Missing config file\n{file_not_foundError}", file=sys.stderr)
+
+        # Key error on json file
+        except KeyError as key_error:
+            print(f"Syntax error on {configuration_file_path} Or missing a key\n{key_error}",
+                  file=sys.stderr)
+
+        # Generic error, to handle unexpected behaviors
+        except Exception as exception:
+            print(f"Generic Error on load CasoCavallo Random Number Generator.\n{exception}",
+                  file=sys.stderr)
+
+        # Return the random sources on configuration file
+        return redis_server

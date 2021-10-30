@@ -4,11 +4,11 @@ import redis
 
 from Utils.ConfigurationFiles.CasoCavalloConfigurationFileHandler import CasoCavalloConfigurationFileHandler
 from Utils.CasoCavalloConstants import \
-    REDIS_SERVER, \
-    CONFIGURATION_FILE_PATH
+    CONFIGURATION_FILE_PATH, NEWTORK_CONFIGURATION_FILE_PATH
 from Workers.Generator import generator_worker
 from Workers.Merger import merger_worker
 from Workers.Remover import remover_worker
+from Workers.Server import server_worker
 
 if __name__ == '__main__':
     """
@@ -22,12 +22,12 @@ if __name__ == '__main__':
     # ***** 2) Init redis and start main loop of generator process *****
     try:
         # Init redis client
-        # TODO: Hardcode in json these properties
+        redis_server = CasoCavalloConfigurationFileHandler.load_redis_server_from_configuration_file(NEWTORK_CONFIGURATION_FILE_PATH)
         redis_client = redis.Redis(
-            host=REDIS_SERVER['host'],
-            port=REDIS_SERVER['port'],
-            db=REDIS_SERVER['database'],
-            socket_timeout=REDIS_SERVER['connection_timeout']
+            host=redis_server['host'],
+            port=redis_server['port'],
+            db=redis_server['database'],
+            socket_timeout=redis_server['connection_timeout']
         )
 
         # Load all redis queues from configuration file
@@ -47,10 +47,14 @@ if __name__ == '__main__':
             generator = Process(target=generator_worker, args=(redis_client, random_source, redis_queues,))
             remover = Process(target=remover_worker, args=(redis_client, redis_lists,))
             merger = Process(target=merger_worker, args=(redis_client, redis_queues))
+            servers = [Process(target=server_worker, args=(redis_client, redis_lists, cummare_server))
+                       for cummare_server in CasoCavalloConfigurationFileHandler.load_cummare_servers_from_configuration_file(NEWTORK_CONFIGURATION_FILE_PATH)]
 
             generator.start()
             remover.start()
             merger.start()
+            for server in servers:
+                server.start()
 
     except Exception as exception:
         print(f"Error on init Redis\n{exception}")

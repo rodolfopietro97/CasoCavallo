@@ -1,6 +1,6 @@
 import redis
 
-from Utils.CasoCavalloConstants import REDIS_SERVER, CONFIGURATION_FILE_PATH
+from Utils.CasoCavalloConstants import CONFIGURATION_FILE_PATH, NEWTORK_CONFIGURATION_FILE_PATH
 from Utils.ConfigurationFiles.CasoCavalloConfigurationFileHandler import CasoCavalloConfigurationFileHandler
 from Workers.Viewer import viewer_worker
 
@@ -11,11 +11,12 @@ if __name__ == '__main__':
 
     try:
         # Init redis client
+        redis_server = CasoCavalloConfigurationFileHandler.load_redis_server_from_configuration_file(NEWTORK_CONFIGURATION_FILE_PATH)
         redis_client = redis.Redis(
-            host=REDIS_SERVER['host'],
-            port=REDIS_SERVER['port'],
-            db=REDIS_SERVER['database'],
-            socket_timeout=REDIS_SERVER['connection_timeout']
+            host=redis_server['host'],
+            port=redis_server['port'],
+            db=redis_server['database'],
+            socket_timeout=redis_server['connection_timeout']
         )
 
         # Load all queues from configuration file

@@ -4,24 +4,19 @@ Alphabet of hexadecimal numbers
 """
 
 
-REDIS_SERVER = {
-    'host': '1.0.0.2',
-    'port': 6379,
-    'database': 0,
-    'connection_timeout': 5
-}
-"""
-Redis server informations.
-
-This configuration is the default uses on docker
-"""
-
-
 CONFIGURATION_FILE_PATH = "./Config.json"
 """
 Path of configuration file.
 
 Configuration file contains random sources to use and a lot of stuffs
+"""
+
+
+NEWTORK_CONFIGURATION_FILE_PATH = "./NetworkConfig.json"
+"""
+Path of network configuration file.
+
+Configuration file contains network and redis properties
 """
 
 
@@ -82,4 +77,18 @@ MERGER_MERGE_TIME = 0.10
 """
 After how many MERGER_MERGE_TIME merge process must do merge of numbers
 in each queue
+"""
+
+
+MESSAGE_ENCODING = 'ISO-8859-1'
+"""
+Encoding format for messages
+(Useful to avoid problem with python rsa)
+"""
+
+
+SERVER_SOLVING_TIME = 0.05
+"""
+Seconds after that server must solve the random requests requests
+of clients
 """
