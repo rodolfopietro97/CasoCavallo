@@ -1,0 +1,9 @@
+{
+  "CummareServers": ["127.0.0.1:50052"],
+  "RedisServer": {
+    "host": "1.0.0.2",
+    "port": 6379,
+    "database": 0,
+    "connection_timeout": 5
+  }
+}
