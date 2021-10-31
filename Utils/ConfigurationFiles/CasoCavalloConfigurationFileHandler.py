@@ -299,3 +299,39 @@ class CasoCavalloConfigurationFileHandler:
 
         # Return the random sources on configuration file
         return redis_server
+
+    @staticmethod
+    def get_generic_property(configuration_file_path: str, property_in_configuration_file: str):
+        """
+        Get generic property in configuration file
+
+        :param configuration_file_path: Path of configuration file
+        :param property_in_configuration_file: Property name in configuration file
+
+        :return: Property value
+        """
+
+        try:
+            # Open config.json
+            config_file = json.load(open(configuration_file_path))
+
+            # Get all queues in configuration file
+            property_value = config_file[property_in_configuration_file]
+
+        # Configuration file doesn't exists
+        except FileNotFoundError as file_not_foundError:
+            print(f"Error on load CasoCavallo Random Number Generator. "
+                  f"Missing config file\n{file_not_foundError}", file=sys.stderr)
+
+        # Key error on json file
+        except KeyError as key_error:
+            print(f"Syntax error on {configuration_file_path} Or missing a key\n{key_error}",
+                  file=sys.stderr)
+
+        # Generic error, to handle unexpected behaviors
+        except Exception as exception:
+            print(f"Generic Error on load CasoCavallo Random Number Generator.\n{exception}",
+                  file=sys.stderr)
+
+        # Return the value of property
+        return property_value

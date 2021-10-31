@@ -9,6 +9,9 @@ from Workers.Generator import generator_worker
 from Workers.Merger import merger_worker
 from Workers.Remover import remover_worker
 from Workers.Server import server_worker
+from Workers.Viewer import viewer_worker
+
+import sys
 
 if __name__ == '__main__':
     """
@@ -47,14 +50,21 @@ if __name__ == '__main__':
             generator = Process(target=generator_worker, args=(redis_client, random_source, redis_queues,))
             remover = Process(target=remover_worker, args=(redis_client, redis_lists,))
             merger = Process(target=merger_worker, args=(redis_client, redis_queues))
-            servers = [Process(target=server_worker, args=(redis_client, redis_lists, cummare_server))
-                       for cummare_server in CasoCavalloConfigurationFileHandler.load_cummare_servers_from_configuration_file(NEWTORK_CONFIGURATION_FILE_PATH)]
+            # servers = [Process(target=server_worker, args=(redis_client, redis_lists, cummare_server))
+            #            for cummare_server in CasoCavalloConfigurationFileHandler.load_cummare_servers_from_configuration_file(NEWTORK_CONFIGURATION_FILE_PATH)]
 
             generator.start()
             remover.start()
             merger.start()
-            for server in servers:
-                server.start()
+            # for server in servers:
+            #     server.start()
+
+        # 4) Auxiliary workers (not for each random source)
+
+        # Use or not Viewer
+        if CasoCavalloConfigurationFileHandler.get_generic_property(CONFIGURATION_FILE_PATH, "useViewer"):
+            viewer = Process(target=viewer_worker, args=(redis_client, redis_lists))
+            viewer.start()
 
     except Exception as exception:
         print(f"Error on init Redis\n{exception}")

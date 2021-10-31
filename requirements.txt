@@ -2,5 +2,4 @@ redis
 numpy
 rich
 rsa
-qiskit
 grpcio-tools

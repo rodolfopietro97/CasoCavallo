@@ -4,7 +4,7 @@ Alphabet of hexadecimal numbers
 """
 
 
-CONFIGURATION_FILE_PATH = "./Config.json"
+CONFIGURATION_FILE_PATH = "../configuration/CasoCavalloConfig.json"
 """
 Path of configuration file.
 
