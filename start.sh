@@ -1,2 +1,2 @@
 # Without viewer
-python Generator.py
+python main.py

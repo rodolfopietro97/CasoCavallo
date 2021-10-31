@@ -1,3 +1,0 @@
-"""
-Grpc protos client implementations
-"""
