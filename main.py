@@ -42,7 +42,8 @@ if __name__ == '__main__':
 
         # Delete all previous redis lists
         for redis_list in redis_lists:
-            redis_client.delete(redis_list)
+            if redis_client.exists(redis_list):
+                redis_client.delete(redis_list)
 
         # Run test of properties
         # TODO improve with a logging system
