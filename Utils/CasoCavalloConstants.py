@@ -12,7 +12,7 @@ Configuration file contains random sources to use and a lot of stuffs
 """
 
 
-RANDOM_GENERATION_TIME = 0.05
+RANDOM_GENERATION_TIME = 0.03
 """
 Second after that we must generate a new random
 """
@@ -65,7 +65,7 @@ And after concatenates all numbers (with different strategies)
 """
 
 
-MERGER_MERGE_TIME = 0.10
+MERGER_MERGE_TIME = 0.05
 """
 After how many MERGER_MERGE_TIME merge process must do merge of numbers
 in each queue
