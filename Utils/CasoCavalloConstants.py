@@ -12,13 +12,13 @@ Configuration file contains random sources to use and a lot of stuffs
 """
 
 
-RANDOM_GENERATION_TIME = 0.03
+RANDOM_GENERATION_TIME = 0.02
 """
 Second after that we must generate a new random
 """
 
 
-RANDOM_REMOVAL_TIME = 0.07
+RANDOM_REMOVAL_TIME = 0.05
 """
 Second after that we must remove a random from list
 """
@@ -55,7 +55,7 @@ Data types for random queues
 """
 
 
-MERGER_BUFFER_SIZE = 10
+MERGER_BUFFER_SIZE = 5
 """
 Size of buffer uses for merge random numbers of a queues in a single random number.
 
@@ -65,7 +65,7 @@ And after concatenates all numbers (with different strategies)
 """
 
 
-MERGER_MERGE_TIME = 0.05
+MERGER_MERGE_TIME = 0.03
 """
 After how many MERGER_MERGE_TIME merge process must do merge of numbers
 in each queue
